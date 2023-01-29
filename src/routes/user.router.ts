@@ -14,4 +14,5 @@ userRouter.get("/:id", getUserId);
 userRouter.put("/:id", updateUser);
 userRouter.post("/", userValidator, createUser);
 
+
 export default userRouter;
