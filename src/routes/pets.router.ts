@@ -1,5 +1,6 @@
 import { Router } from "express";
 import validatorPostPet from "../middlewares/validators/pet.validator"
+import checkJwt from '../utils/jwtAuth0';
 import {
   getAllPets,
   getPetId,
@@ -8,12 +9,16 @@ import {
   deletePet,
 } from "../controller/pet.controller";
 
+
+
 const petsRouter = Router();
 
 petsRouter.get("/", getAllPets);
 petsRouter.get("/:id", getPetId);
-petsRouter.post("/", validatorPostPet, createPet);
-petsRouter.put("/:id", updatePet);
-petsRouter.delete("/:id", deletePet);
+petsRouter.post("/", checkJwt, validatorPostPet, createPet);
+petsRouter.put("/:id", checkJwt,updatePet);
+petsRouter.delete("/:id",checkJwt, deletePet);
 
+
+ 
 export default petsRouter;
