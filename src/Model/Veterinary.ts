@@ -7,6 +7,7 @@ import {
 	BaseEntity,
 } from "typeorm";
 
+
 @Entity()
 export class Veterinary extends BaseEntity {
 	@PrimaryGeneratedColumn("uuid")
@@ -23,7 +24,8 @@ export class Veterinary extends BaseEntity {
 	address!: string;
 	@Column()
 	email!: string;
-
+	@Column("decimal", { array: true})
+	location?: string[];
 	@CreateDateColumn()
 	createdAt!: Date;
 	@UpdateDateColumn()
