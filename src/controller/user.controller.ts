@@ -102,20 +102,22 @@ export const setStatusUserInDB = async (req: Request, res: Response) => {
 
 export const loginCtrl = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
-	const user = await User.find({
+
+	const FindUser = await User.find({
 		// select: [password],
 		where: [{ email: email }],
 		relations: ["pet"],
 	});
+	if (FindUser) {
+		const emailDb = FindUser.map((e) => e.email);
+		const passwordDb = FindUser.map((p) => p.password);
 
-	const emailDb = user.map((e) => e.email);
-	const passwordDb = user.map((p) => p.password);
+		for (let i = 0; i < passwordDb.length; i++) {
+			let resultPassword = await verified(password, passwordDb[i]);
 
-	for (let i = 0; i < passwordDb.length; i++) {
-		let resultPassword = await verified(password, passwordDb[i]);
-
-		if (emailDb[0] && resultPassword) return res.send(user);
-		else res.json("usuario incorrecto");
+			if (emailDb[0] && resultPassword) return res.status(200).send(FindUser);
+			else res.status(400).send("usuario incorrecto");
+		}
 	}
 };
 
