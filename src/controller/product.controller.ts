@@ -56,3 +56,19 @@ export const updateProduct = async (req: Request, res: Response) => {
 		}
 	}
 };
+
+export const deleteProduct = async (req: Request, res: Response) => {
+	const { id } = req.params;
+
+	try {
+		const product = await Product.findOneBy({ id: id });
+		console.log("SOY EL PRODUCT", product)
+		if (!product) throw new NotFoundError(`Product not found by that ID: ${id}`);
+		await Product.delete({ id: id });
+		return res.sendStatus(204);
+	} catch (error) {
+		if (error instanceof Error) {
+			handleHttp(res, 'ERROR_DELETE_PRODUCT')
+		}
+	}
+};
