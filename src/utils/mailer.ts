@@ -19,5 +19,3 @@ export const transporter = nodemailer.createTransport({
 //         console.log("Server is ready to take our messages");
 //       }
 //     });
-
-
