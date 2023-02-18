@@ -15,7 +15,12 @@ export const getAllPets = async (req: Request, res: Response) => {
 export const getPetId = async (req: Request, res: Response) => {
 	const { id } = req.params;
 	try {
-		const pet = await Pet.findOneBy({ id });
+		// const pet = await Pet.findOneBy({ id });
+		const pet = await Pet.find({
+			where: [{ id }],
+			relations: ["user"],
+		});
+
 		if (!pet) throw new NotFoundError(`No pet found with ID: ${id}`);
 		else res.status(200).send(pet);
 	} catch (error) {

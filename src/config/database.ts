@@ -5,24 +5,46 @@ import { Product } from "../Model/Product";
 import { Veterinary } from "../Model/Veterinary";
 import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config();
-
-export default new DataSource({
+const { NODE_ENV, DB_NAME, DB_DEPLOY, DB_PASSWORD, DB_USER } = process.env
+export default new DataSource(
+	NODE_ENV==="development"?{
 	type: "postgres",
 	host: "localhost",
 	port: 5432,
-	username: process.env.DB_USER,
-	password: process.env.DB_PASSWORD,
-	database: process.env.DB_NAME,
+	username: DB_USER,
+	password: DB_PASSWORD,
+	database: DB_NAME,
 	entities: [Pet, User, Product, Veterinary],
-	synchronize: true,
+	synchronize: false,
+	logging: false,
+}:{
+	name: "default",
+	type: "postgres",
+	url: DB_DEPLOY,
+	entities: [Pet, User, Product, Veterinary],
+	synchronize: false,
 	logging: false,
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // export default new DataSource({
 // 	name: "default",
 // 	type: "postgres",
 // 	url: process.env.DB_DEPLOY,
 // 	entities: [Pet, User, Product, Veterinary],
-// 	synchronize: true,
+// 	synchronize: false,
 // 	logging: false,
 // });
