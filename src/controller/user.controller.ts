@@ -3,7 +3,7 @@ import { User } from "../Model/User";
 import { handleHttp, NotFoundError } from "../utils/error.handler";
 import { encrypt } from "../utils/bcrypt.handler";
 import { verified } from "../utils/bcrypt.handler";
-import { transporter } from "../config/mailer";
+import { transporter } from "../utils/mailer";
 
 export const createUser = async (req: Request, res: Response) => {
 	const { name, surname, email, username, phone, role, password } = req.body;
